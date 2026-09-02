@@ -112,7 +112,7 @@ function Login() {
               </label>
 
               <Link
-                to="/forgot-password"
+                to="/forgotPassword"
                 className="text-xs text-slate-400 transition hover:text-white"
               >
                 Forgot password?
