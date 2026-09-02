@@ -29,9 +29,9 @@ function Navbar() {
           How It Works
         </a>
 
-        <a href="#pricing" className="hover:text-white">
+        <Link to="/pricing" className="hover:text-white">
           Pricing
-        </a>
+        </Link>
       </div>
 
       <div className="flex items-center gap-4">
