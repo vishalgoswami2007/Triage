@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Mail, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
+import Logo from "../../../public/logo/triage-logo.png"
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -17,9 +18,11 @@ function Footer() {
             <div className="lg:col-span-2">
               <Link to="/" className="inline-flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
-                  <span className="text-lg font-semibold text-white">
-                    T
-                  </span>
+                 <img
+                           src={Logo}
+                           alt="Triage Logo"
+                           className="h-11 w-11 cursor-pointer"
+                         />
                 </div>
 
                 <span className="text-xl font-semibold text-white">

@@ -67,7 +67,7 @@ function Hero() {
               muted
               loop
               playsInline
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover cursor-pointer"
             />
 
             {/* Very subtle overlay */}

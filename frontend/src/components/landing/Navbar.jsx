@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom";
+import Logo from "../../../public/logo/triage-logo.png"
 
 function Navbar() {
   return (
     <nav className="flex items-center justify-between px-8 py-5">
       <div className="flex items-center gap-3">
         <img
-          src="/logos/triage-logo.png"
+          src={Logo}
           alt="Triage Logo"
-          className="h-9 w-9"
+          className="h-15 w-15 cursor-pointer"
         />
 
-        <span className="text-xl font-semibold text-white">
+        <span className="text-xl font-semibold text-white cursor-pointer">
           Triage
         </span>
       </div>
