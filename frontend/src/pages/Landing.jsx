@@ -4,6 +4,7 @@ import ProductSection from "../components/landing/ProductSection";
 import Features from "../components/landing/Features";
 import HowItWorks from "../components/landing/HowItWorks";
 import CTA from "../components/landing/CTA";
+import Footer from "../components/landing/Footer"
 
 function Landing() {
   return (
@@ -14,6 +15,7 @@ function Landing() {
       <Features/>
       <HowItWorks/>
       <CTA/>
+      <Footer/>
     </main>
   );
 }
