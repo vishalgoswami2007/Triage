@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import  Pricing from "./pages/Pricing.jsx"
+import Dashboard from "./pages/Dashboard.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/forgetPassword" element={<ForgotPassword/>} />
         <Route path="/resetPassword" element={<ResetPassword/>} />
         <Route path="/pricing" element={<Pricing/>} />
+        <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </BrowserRouter>
   );
