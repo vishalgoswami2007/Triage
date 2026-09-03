@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Share2, MoreHorizontal, Pin, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function ChatHeader({onShare onDelete}) {
+function ChatHeader({onShare , onDelete}) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
