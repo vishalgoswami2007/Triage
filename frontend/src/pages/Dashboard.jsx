@@ -87,19 +87,27 @@ function Dashboard() {
   };
 
   const handlePinChat = () => {
-    if (!currentChat) return;
+  if (!currentChat) return;
 
-    const alreadyPinned = pinnedChats.some(
-      (chat) => chat.id === currentChat.id
+  const alreadyPinned = pinnedChats.some(
+    (chat) => chat.id === currentChat.id
+  );
+
+  if (alreadyPinned) {
+    setPinnedChats((prevChats) =>
+      prevChats.filter(
+        (chat) => chat.id !== currentChat.id
+      )
     );
 
-    if (alreadyPinned) return;
+    return;
+  }
 
-    setPinnedChats((prevChats) => [
-      currentChat,
-      ...prevChats,
-    ]);
-  };
+  setPinnedChats((prevChats) => [
+    currentChat,
+    ...prevChats,
+  ]);
+};
 
   const handleDeleteChat = () => {
     if (currentChat) {
@@ -121,6 +129,12 @@ function Dashboard() {
     setShowDelete(false);
   };
 
+  const isCurrentChatPinned = currentChat
+  ? pinnedChats.some(
+      (chat) => chat.id === currentChat.id
+    )
+  : false;
+
   return (
     <main className="flex h-screen overflow-hidden bg-[#0b0f14] text-white">
 
@@ -140,6 +154,7 @@ function Dashboard() {
           onShare={() => setShowShare(true)}
           onDelete={() => setShowDelete(true)}
           onPin={handlePinChat}
+           isPinned={isCurrentChatPinned}
         />
 
         <ChatArea messages={messages} />
