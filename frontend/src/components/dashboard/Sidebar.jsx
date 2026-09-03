@@ -11,7 +11,7 @@ import {
 
 import Logo from "../../../public/logo/triage-logo.png";
 
-function Sidebar() {
+function Sidebar({ onNewChat , onSearch  }) {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const recentChats = [
@@ -64,13 +64,15 @@ function Sidebar() {
 
       {/* Main Actions */}
       <div className="space-y-2 px-3 py-4">
-        <button className="flex w-full items-center gap-3 rounded-xl bg-white px-3 py-2.5 text-sm font-medium text-black transition hover:bg-slate-200">
+        <button onClick={onNewChat}
+        className="flex w-full items-center gap-3 rounded-xl bg-white px-3 py-2.5 text-sm font-medium text-black transition hover:bg-slate-200">
           <Plus size={18} />
 
           {!isCollapsed && <span>New Chat</span>}
         </button>
 
-        <button className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition hover:bg-white/10 hover:text-white">
+        <button onClick={onSearch }
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm text-slate-400 transition hover:bg-white/10 hover:text-white">
           <Search size={18} />
 
           {!isCollapsed && <span>Search</span>}

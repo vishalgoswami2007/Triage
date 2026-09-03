@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Share2, MoreHorizontal, Pin, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function ChatHeader() {
+function ChatHeader({onShare}) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -29,7 +29,9 @@ function ChatHeader() {
            Upgrade
          </Link>
 
-        <button className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white">
+        <button  type="button"
+                 onClick={onShare}
+        className="flex items-center gap-2 rounded-xl border border-white/10 px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white">
           <Share2 size={16} />
           <span className="hidden sm:inline">Share Chat</span>
         </button>

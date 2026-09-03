@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import {
   Bug,
   User,
@@ -7,6 +9,8 @@ import {
 } from "lucide-react";
 
 function ChatArea({ messages }) {
+  const bottomRef = useRef(null);
+
   const suggestions = [
     {
       icon: Bug,
@@ -30,9 +34,14 @@ function ChatArea({ messages }) {
     },
   ];
 
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
+
   return (
     <section className="flex-1 overflow-y-auto px-5 py-6 md:px-8">
-
       <div className="mx-auto w-full max-w-3xl">
 
         {/* Empty State */}
@@ -40,7 +49,6 @@ function ChatArea({ messages }) {
           <div className="flex min-h-full flex-col justify-center">
 
             <div className="text-center">
-
               <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
                 <Bug size={22} />
               </div>
@@ -53,17 +61,17 @@ function ChatArea({ messages }) {
                 Add an error, code, file, or repository context. Triage will
                 help investigate what broke and why.
               </p>
-
             </div>
 
+            {/* Suggestion Cards */}
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
-
               {suggestions.map((item) => {
                 const Icon = item.icon;
 
                 return (
                   <button
                     key={item.title}
+                    type="button"
                     className="group rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-white/10 hover:shadow-xl"
                   >
                     <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-black/30">
@@ -83,13 +91,12 @@ function ChatArea({ messages }) {
                   </button>
                 );
               })}
-
             </div>
 
           </div>
         )}
 
-        {/* Messages */}
+        {/* Active Messages */}
         {messages.length > 0 && (
           <div className="space-y-6">
 
@@ -98,9 +105,9 @@ function ChatArea({ messages }) {
                 key={message.id}
                 className="flex justify-end"
               >
-
                 <div className="max-w-2xl">
 
+                  {/* User */}
                   <div className="mb-2 flex items-center justify-end gap-2">
 
                     <span className="text-xs text-slate-500">
@@ -113,22 +120,24 @@ function ChatArea({ messages }) {
 
                   </div>
 
+                  {/* Message Bubble */}
                   <div className="rounded-2xl rounded-tr-md border border-white/10 bg-white/10 px-4 py-3">
-                    <p className="whitespace-pre-wrap text-sm leading-6 text-slate-200">
+                    <p className="whitespace-pre-wrap overflow-wrap: break-word text-sm leading-6 text-slate-200">
                       {message.content}
                     </p>
                   </div>
 
                 </div>
-
               </div>
             ))}
+
+            {/* Auto Scroll */}
+            <div ref={bottomRef} />
 
           </div>
         )}
 
       </div>
-
     </section>
   );
 }
