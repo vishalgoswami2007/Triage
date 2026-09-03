@@ -153,6 +153,9 @@ function Dashboard() {
       <SearchModal
         isOpen={showSearch}
         onClose={() => setShowSearch(false)}
+        recentChats={recentChats}
+        pinnedChats={pinnedChats}
+        onOpenChat={handleOpenChat}
       />
 
       <ShareModal
