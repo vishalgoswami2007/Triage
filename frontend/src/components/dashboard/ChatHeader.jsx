@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Share2, MoreHorizontal, Pin, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function ChatHeader({onShare}) {
+function ChatHeader({onShare onDelete}) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -52,7 +52,12 @@ function ChatHeader({onShare}) {
                 Pin Chat
               </button>
 
-              <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-400 transition hover:bg-white/10">
+              <button type="button"
+                      onClick={() => {
+                        setShowMenu(false);
+                        onDelete();
+                      }} 
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-red-400 transition hover:bg-white/10">
                 <Trash2 size={15} />
                 Delete Chat
               </button>
