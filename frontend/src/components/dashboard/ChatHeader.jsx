@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Share2, MoreHorizontal, Pin, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-function ChatHeader({onShare , onDelete , onPin , currentChat}) {
+function ChatHeader({onShare , onDelete , onPin , currentChat , isPinned}) {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
@@ -47,16 +47,19 @@ function ChatHeader({onShare , onDelete , onPin , currentChat}) {
           {showMenu && (
             <div className="absolute right-0 top-11 z-20 w-44 rounded-xl border border-white/10 bg-[#11161d] p-1.5 shadow-2xl">
 
-              <button type="button"
-                      onClick={() => {
-                        setShowMenu(false);
-                        onPin();
-                      }}
-                      disabled={!currentChat} 
-              className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white">
-                <Pin size={15} />
-                Pin Chat
-              </button>
+           <button
+                  type="button"
+                  onClick={() => {
+                    setShowMenu(false);
+                    onPin();
+                 }}
+                  disabled={!currentChat}
+                  className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm text-slate-300 transition hover:bg-white/10 hover:text-white disabled:cursor-not-allowed disabled:opacity-40"
+             >
+                 <Pin size={15} />
+
+                {isPinned ? "Unpin Chat" : "Pin Chat"}
+         </button>
 
               <button type="button"
                       onClick={() => {
