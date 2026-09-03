@@ -6,11 +6,13 @@ import ChatArea from "../components/dashboard/ChatArea";
 import ChatInput from "../components/dashboard/ChatInput";
 import SearchModal from "../components/dashboard/SearchModal";
 import ShareModal from "../components/dashboard/ShareModal";
+import DeleteModal from "../components/dashboard/DeleteModal";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
   const [showSearch, setShowSearch] = useState(false);
   const [showShare, setShowShare] = useState(false);
+const [showDelete, setShowDelete] = useState(false);
 
   const handleSendMessage = (message) => {
     if (!message.trim()) return;
@@ -31,6 +33,11 @@ function Dashboard() {
     setMessages([]);
   };
 
+  const handleDeleteChat = () => {
+  setMessages([]);
+  setShowDelete(false);
+};
+
   return (
     <main className="flex h-screen overflow-hidden bg-[#0b0f14] text-white">
 
@@ -41,7 +48,9 @@ function Dashboard() {
 
       <section className="flex min-w-0 flex-1 flex-col">
 
-        <ChatHeader onShare={() => setShowShare(true)} />
+        <ChatHeader onShare={() => setShowShare(true)}
+        onDelete={() => setShowDelete(true)}
+         />
 
         <ChatArea messages={messages} />
 
@@ -59,6 +68,12 @@ function Dashboard() {
         isOpen={showShare}
         onClose={() => setShowShare(false)}
     />
+
+    <DeleteModal
+  isOpen={showDelete}
+  onClose={() => setShowDelete(false)}
+  onDelete={handleDeleteChat}
+/>
 
     </main>
   );
