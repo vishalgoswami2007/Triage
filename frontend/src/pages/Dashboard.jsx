@@ -20,13 +20,14 @@ function Dashboard() {
   const [showShare, setShowShare] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (message , attachments = []) => {
     if (!message.trim()) return;
 
     const newMessage = {
       id: Date.now(),
       role: "user",
       content: message,
+      attachments,
     };
 
     const updatedMessages = [...messages, newMessage];
