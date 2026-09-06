@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+
 import {
   Bug,
   Code2,
@@ -10,14 +11,17 @@ import {
 
 import { FaGithub } from "react-icons/fa";
 
-function ChatArea({ messages }) {
+function ChatArea({
+  messages,
+  isInvestigating,
+}) {
   const bottomRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({
       behavior: "smooth",
     });
-  }, [messages]);
+  }, [messages, isInvestigating]);
 
   return (
     <div className="flex-1 overflow-y-auto">
@@ -126,6 +130,45 @@ function ChatArea({ messages }) {
               </div>
             ))}
 
+            {/* Investigating State */}
+            {isInvestigating && (
+              <div className="flex justify-start">
+
+                <div className="flex max-w-xl items-start gap-3">
+
+                  {/* Triage Icon */}
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                    <Bug
+                      size={15}
+                      className="text-slate-300"
+                    />
+                  </div>
+
+                  {/* Loading Bubble */}
+                  <div className="rounded-2xl rounded-tl-md border border-white/10 bg-white/5 px-4 py-3">
+
+                    <div className="flex items-center gap-3">
+
+                      <span className="text-sm text-slate-400">
+                        Triage is investigating
+                      </span>
+
+                      <div className="flex items-center gap-1">
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500"></span>
+
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500"></span>
+
+                        <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-slate-500"></span>
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+            )}
+
             <div ref={bottomRef} />
 
           </div>
@@ -136,10 +179,11 @@ function ChatArea({ messages }) {
   );
 }
 
-
 /* Attachment Card */
 
-function AttachmentCard({ attachment }) {
+function AttachmentCard({
+  attachment,
+}) {
   // File
   if (attachment.type === "file") {
     return (
@@ -166,7 +210,6 @@ function AttachmentCard({ attachment }) {
     );
   }
 
-
   // Screenshot
   if (attachment.type === "screenshot") {
     return (
@@ -188,7 +231,6 @@ function AttachmentCard({ attachment }) {
       </div>
     );
   }
-
 
   // Code
   if (attachment.type === "code") {
@@ -216,7 +258,6 @@ function AttachmentCard({ attachment }) {
     );
   }
 
-
   // GitHub
   if (attachment.type === "github") {
     return (
@@ -242,10 +283,8 @@ function AttachmentCard({ attachment }) {
     );
   }
 
-
   return null;
 }
-
 
 /* Suggestion Card */
 
