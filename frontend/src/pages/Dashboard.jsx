@@ -19,6 +19,7 @@ function Dashboard() {
   const [showSearch, setShowSearch] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [isInvestigating, setIsInvestigating] = useState(false);
 
   const handleSendMessage = (message , attachments = []) => {
     if (!message.trim()) return;
@@ -33,6 +34,7 @@ function Dashboard() {
     const updatedMessages = [...messages, newMessage];
 
     setMessages(updatedMessages);
+    setIsInvestigating(true);
 
     // First message creates a chat
     if (!currentChat) {
