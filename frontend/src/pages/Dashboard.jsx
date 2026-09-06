@@ -17,6 +17,7 @@ function Dashboard() {
   const [showSearch, setShowSearch] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   const [isInvestigating, setIsInvestigating] = useState(false);
 
@@ -37,7 +38,6 @@ function Dashboard() {
     setMessages(updatedMessages);
     setIsInvestigating(true);
 
-    // First message creates a new chat
     if (!currentChat) {
       const newChat = {
         id: Date.now(),
@@ -79,7 +79,6 @@ function Dashboard() {
       );
     }
 
-    // Temporary frontend loading simulation
     setTimeout(() => {
       setIsInvestigating(false);
     }, 2000);
@@ -149,22 +148,40 @@ function Dashboard() {
 
   return (
     <main className="flex h-screen overflow-hidden bg-[#0b0f14] text-white">
+
       <Sidebar
-        onNewChat={handleNewChat}
-        onSearch={() => setShowSearch(true)}
+        onNewChat={() => {
+          handleNewChat();
+          setShowMobileSidebar(false);
+        }}
+        onSearch={() => {
+          setShowSearch(true);
+          setShowMobileSidebar(false);
+        }}
         recentChats={recentChats}
         pinnedChats={pinnedChats}
-        onOpenChat={handleOpenChat}
+        onOpenChat={(chat) => {
+          handleOpenChat(chat);
+          setShowMobileSidebar(false);
+        }}
         currentChat={currentChat}
+        showMobileSidebar={showMobileSidebar}
+        onCloseMobile={() =>
+          setShowMobileSidebar(false)
+        }
       />
 
       <section className="flex min-w-0 flex-1 flex-col">
+
         <ChatHeader
           currentChat={currentChat}
           onShare={() => setShowShare(true)}
           onDelete={() => setShowDelete(true)}
           onPin={handlePinChat}
           isPinned={isCurrentChatPinned}
+          onOpenSidebar={() =>
+            setShowMobileSidebar(true)
+          }
         />
 
         <ChatArea
@@ -175,6 +192,7 @@ function Dashboard() {
         <ChatInput
           onSendMessage={handleSendMessage}
         />
+
       </section>
 
       <SearchModal
@@ -195,6 +213,7 @@ function Dashboard() {
         onClose={() => setShowDelete(false)}
         onDelete={handleDeleteChat}
       />
+
     </main>
   );
 }
