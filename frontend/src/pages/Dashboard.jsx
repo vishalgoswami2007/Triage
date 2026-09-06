@@ -10,19 +10,20 @@ import DeleteModal from "../components/dashboard/DeleteModal";
 
 function Dashboard() {
   const [messages, setMessages] = useState([]);
-
   const [recentChats, setRecentChats] = useState([]);
   const [pinnedChats, setPinnedChats] = useState([]);
-
   const [currentChat, setCurrentChat] = useState(null);
 
   const [showSearch, setShowSearch] = useState(false);
   const [showShare, setShowShare] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+
   const [isInvestigating, setIsInvestigating] = useState(false);
 
-  const handleSendMessage = (message , attachments = []) => {
-    if (!message.trim()) return;
+  const handleSendMessage = (message, attachments = []) => {
+    if (!message.trim() && attachments.length === 0) {
+      return;
+    }
 
     const newMessage = {
       id: Date.now(),
@@ -36,14 +37,14 @@ function Dashboard() {
     setMessages(updatedMessages);
     setIsInvestigating(true);
 
-    // First message creates a chat
+    // First message creates a new chat
     if (!currentChat) {
       const newChat = {
         id: Date.now(),
         title:
-          message.length > 35
-            ? message.slice(0, 35) + "..."
-            : message,
+          message.trim().length > 35
+            ? message.trim().slice(0, 35) + "..."
+            : message.trim() || "New investigation",
         messages: updatedMessages,
       };
 
@@ -77,40 +78,47 @@ function Dashboard() {
         )
       );
     }
+
+    // Temporary frontend loading simulation
+    setTimeout(() => {
+      setIsInvestigating(false);
+    }, 2000);
   };
 
   const handleNewChat = () => {
     setMessages([]);
     setCurrentChat(null);
+    setIsInvestigating(false);
   };
 
   const handleOpenChat = (chat) => {
     setCurrentChat(chat);
     setMessages(chat.messages);
+    setIsInvestigating(false);
   };
 
   const handlePinChat = () => {
-  if (!currentChat) return;
+    if (!currentChat) return;
 
-  const alreadyPinned = pinnedChats.some(
-    (chat) => chat.id === currentChat.id
-  );
-
-  if (alreadyPinned) {
-    setPinnedChats((prevChats) =>
-      prevChats.filter(
-        (chat) => chat.id !== currentChat.id
-      )
+    const alreadyPinned = pinnedChats.some(
+      (chat) => chat.id === currentChat.id
     );
 
-    return;
-  }
+    if (alreadyPinned) {
+      setPinnedChats((prevChats) =>
+        prevChats.filter(
+          (chat) => chat.id !== currentChat.id
+        )
+      );
 
-  setPinnedChats((prevChats) => [
-    currentChat,
-    ...prevChats,
-  ]);
-};
+      return;
+    }
+
+    setPinnedChats((prevChats) => [
+      currentChat,
+      ...prevChats,
+    ]);
+  };
 
   const handleDeleteChat = () => {
     if (currentChat) {
@@ -129,18 +137,18 @@ function Dashboard() {
 
     setMessages([]);
     setCurrentChat(null);
+    setIsInvestigating(false);
     setShowDelete(false);
   };
 
   const isCurrentChatPinned = currentChat
-  ? pinnedChats.some(
-      (chat) => chat.id === currentChat.id
-    )
-  : false;
+    ? pinnedChats.some(
+        (chat) => chat.id === currentChat.id
+      )
+    : false;
 
   return (
     <main className="flex h-screen overflow-hidden bg-[#0b0f14] text-white">
-
       <Sidebar
         onNewChat={handleNewChat}
         onSearch={() => setShowSearch(true)}
@@ -151,21 +159,22 @@ function Dashboard() {
       />
 
       <section className="flex min-w-0 flex-1 flex-col">
-
         <ChatHeader
           currentChat={currentChat}
           onShare={() => setShowShare(true)}
           onDelete={() => setShowDelete(true)}
           onPin={handlePinChat}
-           isPinned={isCurrentChatPinned}
+          isPinned={isCurrentChatPinned}
         />
 
-        <ChatArea messages={messages} />
+        <ChatArea
+          messages={messages}
+          isInvestigating={isInvestigating}
+        />
 
         <ChatInput
           onSendMessage={handleSendMessage}
         />
-
       </section>
 
       <SearchModal
@@ -186,7 +195,6 @@ function Dashboard() {
         onClose={() => setShowDelete(false)}
         onDelete={handleDeleteChat}
       />
-
     </main>
   );
 }
