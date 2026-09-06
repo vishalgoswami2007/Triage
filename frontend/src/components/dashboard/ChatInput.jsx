@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+
 import {
   Plus,
   Send,
@@ -14,7 +15,6 @@ import { FaGithub } from "react-icons/fa";
 function ChatInput({ onSendMessage }) {
   const [message, setMessage] = useState("");
   const [showOptions, setShowOptions] = useState(false);
-
   const [attachments, setAttachments] = useState([]);
 
   const [showCodeBox, setShowCodeBox] = useState(false);
@@ -144,6 +144,7 @@ function ChatInput({ onSendMessage }) {
       cleanMessage,
       attachments
     );
+
     setMessage("");
     setAttachments([]);
     setShowOptions(false);
@@ -166,83 +167,81 @@ function ChatInput({ onSendMessage }) {
 
   return (
     <>
-      <div className="border-t border-white/10 bg-[#0b0f14] px-4 py-4 md:px-6">
+      <div className="border-t border-white/10 bg-[#0b0f14] px-3 py-3 sm:px-4 sm:py-4 md:px-6">
 
         <div className="mx-auto max-w-4xl">
 
-          {/* Attachments Preview */}
+          {/* Attachment Preview */}
           {attachments.length > 0 && (
-            <div className="mb-3 flex flex-wrap gap-2">
-              {attachments.map(
-                (attachment) => (
-                  <div
-                    key={attachment.id}
-                    className="relative flex max-w-xs items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
-                  >
-                    {attachment.type ===
-                      "file" && (
-                      <FileText
-                        size={17}
-                        className="shrink-0 text-slate-400"
-                      />
-                    )}
+            <div className="mb-3 flex gap-2 overflow-x-auto pb-1">
 
-                    {attachment.type ===
-                      "screenshot" && (
-                      <img
-                        src={
-                          attachment.preview
-                        }
-                        alt="Screenshot preview"
-                        className="h-10 w-10 rounded-lg object-cover"
-                      />
-                    )}
+              {attachments.map((attachment) => (
+                <div
+                  key={attachment.id}
+                  className="flex min-w-44 max-w-64 shrink-0 items-center gap-3 rounded-xl border border-white/10 bg-white/5 px-3 py-2"
+                >
 
-                    {attachment.type ===
-                      "code" && (
-                      <Code2
-                        size={17}
-                        className="shrink-0 text-slate-400"
-                      />
-                    )}
+                  {attachment.type === "file" && (
+                    <FileText
+                      size={17}
+                      className="shrink-0 text-slate-400"
+                    />
+                  )}
 
-                    {attachment.type ===
-                      "github" && (
-                      <FaGithub className="shrink-0 text-slate-400" />
-                    )}
+                  {attachment.type === "screenshot" && (
+                    <img
+                      src={attachment.preview}
+                      alt="Screenshot preview"
+                      className="h-10 w-10 shrink-0 rounded-lg object-cover"
+                    />
+                  )}
 
-                    <div className="min-w-0">
-                      <p className="truncate text-xs text-slate-300">
-                        {attachment.name}
-                      </p>
+                  {attachment.type === "code" && (
+                    <Code2
+                      size={17}
+                      className="shrink-0 text-slate-400"
+                    />
+                  )}
 
-                      <p className="text-xs capitalize text-slate-600">
-                        {attachment.type}
-                      </p>
-                    </div>
+                  {attachment.type === "github" && (
+                    <FaGithub className="shrink-0 text-slate-400" />
+                  )}
 
-                    <button
-                      type="button"
-                      onClick={() =>
-                        removeAttachment(
-                          attachment.id
-                        )
-                      }
-                      className="rounded-lg p-1 text-slate-500 transition hover:bg-white/10 hover:text-white"
-                    >
-                      <X size={14} />
-                    </button>
+                  <div className="min-w-0 flex-1">
+
+                    <p className="truncate text-xs text-slate-300">
+                      {attachment.name}
+                    </p>
+
+                    <p className="text-xs capitalize text-slate-600">
+                      {attachment.type}
+                    </p>
+
                   </div>
-                )
-              )}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      removeAttachment(
+                        attachment.id
+                      )
+                    }
+                    className="shrink-0 rounded-lg p-1 text-slate-500 transition hover:bg-white/10 hover:text-white"
+                  >
+                    <X size={14} />
+                  </button>
+
+                </div>
+              ))}
+
             </div>
           )}
 
-          {/* Input Container */}
           <form
             onSubmit={handleSubmit}
-            className="relative rounded-2xl border border-white/10 bg-white/5 p-3 shadow-xl"
+            className="relative rounded-2xl border border-white/10 bg-white/5 p-2.5 shadow-xl sm:p-3"
           >
+
             <textarea
               value={message}
               onChange={(event) =>
@@ -253,12 +252,11 @@ function ChatInput({ onSendMessage }) {
               onKeyDown={handleKeyDown}
               rows={1}
               placeholder="Describe the bug, error, or problem..."
-              className="max-h-40 min-h-12 w-full resize-none bg-transparent px-2 py-2 pr-3 text-sm text-white outline-none placeholder:text-slate-600"
+              className="max-h-40 min-h-12 w-full resize-none bg-transparent px-2 py-2 text-sm text-white outline-none placeholder:text-slate-600"
             />
 
             <div className="mt-2 flex items-center justify-between">
 
-              {/* Left */}
               <div className="relative">
 
                 <button
@@ -274,7 +272,7 @@ function ChatInput({ onSendMessage }) {
                 </button>
 
                 {showOptions && (
-                  <div className="absolute bottom-12 left-0 z-30 w-56 rounded-xl border border-white/10 bg-[#11161d] p-1.5 shadow-2xl">
+                  <div className="absolute bottom-12 left-0 z-30 w-52 rounded-xl border border-white/10 bg-[#11161d] p-1.5 shadow-2xl sm:w-56">
 
                     <button
                       type="button"
@@ -328,27 +326,20 @@ function ChatInput({ onSendMessage }) {
                 <input
                   ref={fileInputRef}
                   type="file"
-                  onChange={
-                    handleFileSelect
-                  }
+                  onChange={handleFileSelect}
                   className="hidden"
                 />
 
                 <input
-                  ref={
-                    screenshotInputRef
-                  }
+                  ref={screenshotInputRef}
                   type="file"
                   accept="image/*"
-                  onChange={
-                    handleScreenshotSelect
-                  }
+                  onChange={handleScreenshotSelect}
                   className="hidden"
                 />
 
               </div>
 
-              {/* Send */}
               <button
                 type="submit"
                 disabled={
@@ -361,31 +352,31 @@ function ChatInput({ onSendMessage }) {
               </button>
 
             </div>
+
           </form>
 
           <p className="mt-2 text-center text-xs text-slate-600">
-            Triage can make mistakes.
-            Verify important debugging
-            decisions.
+            Triage can make mistakes. Verify important debugging decisions.
           </p>
 
         </div>
       </div>
 
-      {/* Add Code Modal */}
+      {/* Code Modal */}
       {showCodeBox && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl rounded-2xl border border-white/10 bg-[#11161d] p-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3 backdrop-blur-sm sm:px-4">
+
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#11161d] p-4 shadow-2xl sm:p-5">
 
             <div className="flex items-center justify-between">
+
               <div>
                 <h2 className="text-base font-medium text-white">
                   Add code
                 </h2>
 
                 <p className="mt-1 text-xs text-slate-500">
-                  Paste the code you want
-                  Triage to investigate
+                  Paste the code you want Triage to investigate
                 </p>
               </div>
 
@@ -394,10 +385,11 @@ function ChatInput({ onSendMessage }) {
                 onClick={() =>
                   setShowCodeBox(false)
                 }
-                className="rounded-lg p-2 text-slate-500 hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-slate-500 transition hover:bg-white/10 hover:text-white"
               >
                 <X size={18} />
               </button>
+
             </div>
 
             <textarea
@@ -407,18 +399,19 @@ function ChatInput({ onSendMessage }) {
                   event.target.value
                 )
               }
-              rows={12}
+              rows={10}
               placeholder="Paste your code here..."
               className="mt-4 w-full resize-none rounded-xl border border-white/10 bg-black/30 p-4 font-mono text-sm text-slate-200 outline-none placeholder:text-slate-700 focus:border-white/20"
             />
 
             <div className="mt-4 flex justify-end gap-3">
+
               <button
                 type="button"
                 onClick={() =>
                   setShowCodeBox(false)
                 }
-                className="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/10"
+                className="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300 transition hover:bg-white/10"
               >
                 Cancel
               </button>
@@ -427,10 +420,11 @@ function ChatInput({ onSendMessage }) {
                 type="button"
                 onClick={handleAddCode}
                 disabled={!codeValue.trim()}
-                className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Add Code
               </button>
+
             </div>
 
           </div>
@@ -439,18 +433,19 @@ function ChatInput({ onSendMessage }) {
 
       {/* GitHub Modal */}
       {showGithubBox && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#11161d] p-5 shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-3 backdrop-blur-sm sm:px-4">
+
+          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#11161d] p-4 shadow-2xl sm:p-5">
 
             <div className="flex items-center justify-between">
+
               <div>
                 <h2 className="text-base font-medium text-white">
                   Add GitHub repository
                 </h2>
 
                 <p className="mt-1 text-xs text-slate-500">
-                  Add a repository URL for
-                  investigation
+                  Add a repository URL for investigation
                 </p>
               </div>
 
@@ -459,16 +454,18 @@ function ChatInput({ onSendMessage }) {
                 onClick={() =>
                   setShowGithubBox(false)
                 }
-                className="rounded-lg p-2 text-slate-500 hover:bg-white/10 hover:text-white"
+                className="rounded-lg p-2 text-slate-500 transition hover:bg-white/10 hover:text-white"
               >
                 <X size={18} />
               </button>
+
             </div>
 
             <div className="mt-5 flex items-center gap-3 rounded-xl border border-white/10 bg-black/30 px-4">
+
               <LinkIcon
                 size={17}
-                className="text-slate-500"
+                className="shrink-0 text-slate-500"
               />
 
               <input
@@ -480,17 +477,19 @@ function ChatInput({ onSendMessage }) {
                   )
                 }
                 placeholder="https://github.com/username/repository"
-                className="w-full bg-transparent py-3 text-sm text-white outline-none placeholder:text-slate-700"
+                className="min-w-0 w-full bg-transparent py-3 text-sm text-white outline-none placeholder:text-slate-700"
               />
+
             </div>
 
             <div className="mt-5 flex justify-end gap-3">
+
               <button
                 type="button"
                 onClick={() =>
                   setShowGithubBox(false)
                 }
-                className="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300 hover:bg-white/10"
+                className="rounded-xl border border-white/10 px-4 py-2 text-sm text-slate-300 transition hover:bg-white/10"
               >
                 Cancel
               </button>
@@ -499,10 +498,11 @@ function ChatInput({ onSendMessage }) {
                 type="button"
                 onClick={handleAddGithub}
                 disabled={!githubUrl.trim()}
-                className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-xl bg-white px-4 py-2 text-sm font-medium text-black transition hover:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Add Repository
               </button>
+
             </div>
 
           </div>
