@@ -144,18 +144,6 @@ function ChatInput({ onSendMessage }) {
       cleanMessage,
       attachments
     );
-
-    attachments.forEach((attachment) => {
-      if (
-        attachment.type === "screenshot" &&
-        attachment.preview
-      ) {
-        URL.revokeObjectURL(
-          attachment.preview
-        );
-      }
-    });
-
     setMessage("");
     setAttachments([]);
     setShowOptions(false);
